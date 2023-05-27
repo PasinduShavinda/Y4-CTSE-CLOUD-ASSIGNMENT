@@ -1,0 +1,29 @@
+version: '3.9'
+
+
+## DEFINE CONTAINERS
+services:
+  
+  ## MongoDb Services
+  mongo_db:
+    container_name: db_container
+    image: mongo:latest
+    restart: always
+    volumes: 
+      - mongo_db:/data/db
+
+  # Node API service
+  api:
+    build: .
+    ports: 
+      - 4000:3000
+    volumes:
+      - .:/usr/src/app
+    environment:
+      PORT: 3000
+      DB_URL: mongodb+srv://it20140298:pw4342@ctse-assign-cc1.pvpx1af.mongodb.net/?retryWrites=true&w=majority
+    depends_on:
+      - mongo_db
+
+volumes:
+  mongo_db: {}
